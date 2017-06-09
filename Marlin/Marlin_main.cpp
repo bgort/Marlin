@@ -4305,17 +4305,17 @@ void home_all_axes() { gcode_G28(true); }
             return;
           }
 
-          const float z = parser.seen('Z') && parser.has_value() ? parser.value_float() : NAN;
+          const float z = parser.seenval('Z') ? parser.value_float() : NAN;
           if (!isnan(z) || !WITHIN(z, -10, 10)) {
             SERIAL_ERROR_START;
             SERIAL_ERRORLNPGM("Bad Z value");
             return;
           }
 
-          const float x = parser.seen('X') && parser.has_value() ? parser.value_float() : NAN,
-                      y = parser.seen('Y') && parser.has_value() ? parser.value_float() : NAN;
-          int8_t i = parser.seen('I') && parser.has_value() ? parser.value_byte() : -1,
-                 j = parser.seen('J') && parser.has_value() ? parser.value_byte() : -1;
+          const float x = parser.seenval('X') ? parser.value_float() : NAN,
+                      y = parser.seenval('Y') ? parser.value_float() : NAN;
+          int8_t i = parser.seenval('I') ? parser.value_byte() : -1,
+                 j = parser.seenval('J') ? parser.value_byte() : -1;
 
           if (!isnan(x) && !isnan(y)) {
             // Get nearest i / j from x / y
@@ -4347,7 +4347,7 @@ void home_all_axes() { gcode_G28(true); }
 
       #endif
 
-      verbose_level = parser.seen('V') && parser.has_value() ? parser.value_int() : 0;
+      verbose_level = parser.seenval('V') ? parser.value_int() : 0;
       if (!WITHIN(verbose_level, 0, 4)) {
         SERIAL_PROTOCOLLNPGM("?(V)erbose level is implausible (0-4).");
         return;

@@ -323,7 +323,7 @@
 
     // Check for commands that require the printer to be homed
     if (axis_unhomed_error()) {
-      const int8_t p_val = parser.seen('P') && parser.has_value() ? parser.value_int() : -1;
+      const int8_t p_val = parser.seenval('P') ? parser.value_int() : -1;
       if (p_val == 1 || p_val == 2 || p_val == 4 || parser.seen('J'))
         home_all_axes();
     }
@@ -498,7 +498,7 @@
               }
             }
 
-            if (parser.seen('H') && parser.has_value()) height = parser.value_float();
+            if (parser.seenval('H')) height = parser.value_float();
 
             if (!position_is_reachable_xy(g29_x_pos, g29_y_pos)) {
               SERIAL_PROTOCOLLNPGM("XY outside printable radius.");
@@ -1104,9 +1104,9 @@
     g29_constant = 0.0;
     g29_repetition_cnt = 0;
 
-    g29_x_flag = parser.seen('X') && parser.has_value();
+    g29_x_flag = parser.seenval('X');
     g29_x_pos = g29_x_flag ? parser.value_float() : current_position[X_AXIS];
-    g29_y_flag = parser.seen('Y') && parser.has_value();
+    g29_y_flag = parser.seenval('Y');
     g29_y_pos = g29_y_flag ? parser.value_float() : current_position[Y_AXIS];
 
     if (parser.seen('R')) {
@@ -1180,7 +1180,7 @@
       g29_constant = parser.value_float();
 
     #if ENABLED(ENABLE_LEVELING_FADE_HEIGHT)
-      if (parser.seen('F') && parser.has_value()) {
+      if (parser.seenval('F')) {
         const float fh = parser.value_float();
         if (!WITHIN(fh, 0.0, 100.0)) {
           SERIAL_PROTOCOLLNPGM("?(F)ade height for Bed Level Correction not plausible.\n");
@@ -1190,7 +1190,7 @@
       }
     #endif
 
-    g29_map_type = parser.seen('T') && parser.has_value() ? parser.value_int() : 0;
+    g29_map_type = parser.seenval('T') ? parser.value_int() : 0;
     if (!WITHIN(g29_map_type, 0, 1)) {
       SERIAL_PROTOCOLLNPGM("Invalid map type.\n");
       return UBL_ERR;

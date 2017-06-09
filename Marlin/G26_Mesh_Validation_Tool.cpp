@@ -634,7 +634,7 @@
     g26_hotend_temp           = HOTEND_TEMP;
     g26_prime_flag            = 0;
 
-    g26_ooze_amount           = parser.seen('O') && parser.has_value() ? parser.value_linear_units() : OOZE_AMOUNT;
+    g26_ooze_amount           = parser.seenval('O') ? parser.value_linear_units() : OOZE_AMOUNT;
     g26_keep_heaters_on       = parser.seen('K') && parser.value_bool();
     g26_continue_with_closest = parser.seen('C') && parser.value_bool();
 
@@ -722,7 +722,7 @@
     }
 
     #if ENABLED(NEWPANEL)
-      g26_repeats = parser.seen('R') && parser.has_value() ? parser.value_int() : GRID_MAX_POINTS + 1;
+      g26_repeats = parser.seenval('R') ? parser.value_int() : GRID_MAX_POINTS + 1;
     #else
       if (!parser.seen('R')) {
         SERIAL_PROTOCOLLNPGM("?(R)epeat must be specified when not using an LCD.");
